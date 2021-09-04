@@ -28,6 +28,7 @@ int main()
   	tab_envoye_3 = buffer.give_buffer();
 	test.expect_equ(tab_requis_3,tab_envoye_3,10,"test de la fonction RAZ");
 	test.expect_equ(0,buffer.stock_buffer(),"test de la fonction RAZ stock 0");
+	test.expect_equ(0,buffer.ok_to_pop(),"test de la fonction validation a pop");
 	
 	//test stockage valeur dans le buffer
  	buffer.push(10);
@@ -35,6 +36,7 @@ int main()
  	tab_envoye_3 = buffer.give_buffer();
  	test.expect_equ(tab_requis_3,tab_envoye_3,10,"test de la fonction push test initial");
 	test.expect_equ(1,buffer.stock_buffer(),"test de la fonction stock");
+	test.expect_equ(1,buffer.ok_to_pop(),"test de la fonction validation a pop");
  	
  	buffer.push(5);
  	tab_requis_3[1] = 5;
@@ -48,6 +50,7 @@ int main()
   	tab_envoye_3 = buffer.give_buffer();
   	test.expect_equ(tab_requis_3,tab_envoye_3,10,"test de la fonction  pop 1");
 	test.expect_equ(1,buffer.stock_buffer(),"test de la fonction stock");
+	test.expect_equ(1,buffer.ok_to_pop(),"test de la fonction validation a pop");
 	
 	//test pop second
  	test.expect_equ(5,buffer.pop(),"test de la fonctionpop 0");
@@ -55,10 +58,12 @@ int main()
  	tab_envoye_3 = buffer.give_buffer();
  	test.expect_equ(tab_requis_3,tab_envoye_3,10,"test de la fonction pop 2");
 	test.expect_equ(0,buffer.stock_buffer(),"test de la fonction stock");
+	test.expect_equ(0,buffer.ok_to_pop(),"test de la fonction validation a pop");
 	
 	//test sur pop
 	test.expect_equ(0,buffer.pop(),"test de la fonction sur pop 0");
 	test.expect_equ(-1,buffer.stock_buffer(),"test de la fonction stock");
+	test.expect_equ(0,buffer.ok_to_pop(),"test de la fonction validation a pop");
 	
 	//test de séquences entrées sorties, enchainement push - push
 	//buffer à zéro ici, et tab_requis également
@@ -134,6 +139,7 @@ int main()
 	tab_envoye_3 = buffer.give_buffer();
 	test.expect_equ(tab_requis_3,tab_envoye_3,10,"test push initiaux");
 	test.expect_equ(9,buffer.stock_buffer(),"test de la fonction stock");
+	test.expect_equ(1,buffer.ok_to_push(),"test de la fonction autorisation a push");
 	
 	//un coup de push en plus, et on doit revenir à 0
 	buffer.push(11);
@@ -141,6 +147,7 @@ int main()
 	tab_envoye_3 = buffer.give_buffer();
 	test.expect_equ(tab_requis_3,tab_envoye_3,10,"test push depassement");
 	test.expect_equ(10,buffer.stock_buffer(),"test de la fonction stock");
+	test.expect_equ(0,buffer.ok_to_push(),"test de la fonction autorisation a push");
 	
 	//test des pops:
 	tab_envoye_3 = buffer.give_buffer();
@@ -182,6 +189,7 @@ int main()
 	tab_requis_3[9] = 0;
 	tab_envoye_3 = buffer.give_buffer();
 	test.expect_equ(tab_requis_3,tab_envoye_3,10,"test apres pop avec depassement");
+	test.expect_equ(0,buffer.ok_to_pop(),"test de la fonction validation a pop");
 	
 	//test push pop a proximite du depassement
 	buffer.push(1);
@@ -208,9 +216,12 @@ int main()
 	tab_envoye_3 = buffer.give_buffer();
 	test.expect_equ(tab_requis_3,tab_envoye_3,10,"test apres push et cycle");
 	test.expect_equ(10,buffer.stock_buffer(),"test de la fonction stock");
+	test.expect_equ(0,buffer.ok_to_push(),"test de la fonction autorisation a push");
+	
 	
 	//test du pop
 	test.expect_equ(1,buffer.pop(),"test de la fonction pop avec depassement");
+	test.expect_equ(1,buffer.ok_to_push(),"test de la fonction autorisation a push");
 	tab_requis_3[1] = 0;
 	tab_envoye_3 = buffer.give_buffer();
  	test.expect_equ(tab_requis_3,tab_envoye_3,10,"test apres push et cycle");
@@ -222,6 +233,8 @@ int main()
 	tab_envoye_3 = buffer.give_buffer();
  	test.expect_equ(tab_requis_3,tab_envoye_3,10,"test apres push et cycle");
 	test.expect_equ(10,buffer.stock_buffer(),"test de la fonction stock");
+	test.expect_equ(0,buffer.ok_to_push(),"test de la fonction autorisation a push");
+	test.expect_equ(1,buffer.ok_to_pop(),"test de la fonction validation a pop");
 	
 	return 0;
 }

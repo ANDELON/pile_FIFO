@@ -72,3 +72,23 @@ int buffer_FIFO::stock_buffer()
 {
 	return stocke;
 }
+
+int buffer_FIFO::ok_to_push()
+{
+	int autorisation = 0;
+	if(stocke < longueur)
+	{
+		autorisation = 1;
+	}
+	return autorisation;
+}
+
+int buffer_FIFO::ok_to_pop()
+{
+	int autorisation = 0;
+	if(stocke > 0)
+	{
+		autorisation = 1;
+	}
+	return autorisation;	
+}

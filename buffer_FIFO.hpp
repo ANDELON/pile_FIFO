@@ -11,6 +11,8 @@ public:
 	void push(int);
 	int pop();
 	int stock_buffer();
+	int ok_to_push();
+	int ok_to_pop();
 private:
 	int buffer[10];
 	int longueur;
